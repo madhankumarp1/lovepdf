@@ -1,0 +1,3 @@
+# INSTRUCTIONS:
+# 1. Replaced the values above with your real keys from Supabase Dashboard.
+# 2. Restart 'npm run dev'.

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lovepdf.vercel.app/sitemap.xml
