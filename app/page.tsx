@@ -43,6 +43,7 @@ export default function Home() {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
           Every tool you need to work with PDFs in one place
         </h1>
+        <p className="text-sm text-gray-500 mb-4">v1.1</p>
         <p className="text-xl text-gray-600">
           All the tools you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
         </p>
@@ -53,6 +54,6 @@ export default function Home() {
           <ToolCard key={tool.title} {...tool} />
         ))}
       </div>
-    </div>
+    </div >
   );
 }
