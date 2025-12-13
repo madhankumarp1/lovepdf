@@ -57,7 +57,7 @@ export default function Home() {
         }}
       />
       <div className="text-center max-w-2xl mx-auto mb-16">
-        <p className="text-xs font-mono text-gray-400 mb-2">v1.2 (Checking Verification)</p>
+        <p className="text-xs font-mono text-gray-400 mb-2">v1.3 (Finalizing Configuration)</p>
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
           Every tool you need to work with PDFs in one place
         </h1>
