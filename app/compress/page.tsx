@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FileUploader } from '@/components/FileUploader';
 import { Download, Minimize2 } from 'lucide-react';
-import { api } from '@/lib/api';
+import api from '@/lib/api';
 
 export default function CompressPage() {
     const [files, setFiles] = useState<File[]>([]);
@@ -50,8 +50,8 @@ export default function CompressPage() {
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                 <FileUploader
                     onFilesSelected={(newFiles) => setFiles(newFiles)}
-                    maxFiles={1}
-                    accept={{ 'application/pdf': ['.pdf'] }}
+
+                    accept=".pdf"
                 />
 
                 {files.length > 0 && (
