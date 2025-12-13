@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
         const zipBuffer = zip.toBuffer();
 
-        return new NextResponse(zipBuffer, {
+        return new NextResponse(Buffer.from(zipBuffer), {
             status: 200,
             headers: {
                 'Content-Type': 'application/zip',
