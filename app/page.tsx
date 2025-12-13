@@ -39,6 +39,23 @@ export default function Home() {
   // Vercel Deployment Trigger v2
   return (
     <div className="container mx-auto px-4 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Love PDF",
+            "url": "https://lovepdf-dun.vercel.app",
+            "description": "Every tool you need to work with PDFs in one place. Merge, split, compress, and convert PDFs for free.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://lovepdf-dun.vercel.app/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })
+        }}
+      />
       <div className="text-center max-w-2xl mx-auto mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
           Every tool you need to work with PDFs in one place
