@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     description: '100% Free PDF tools. Merge, Split, Compress and more.',
     creator: '@MadhanK48272026',
   },
+  verification: {
+    google: 'google7da33f8848b676f8',
+  },
 };
 
 export default function RootLayout({
