@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FileUploader } from '@/components/FileUploader';
 import { Download, Minimize2 } from 'lucide-react';
-import api from '@/lib/api';
+
 
 export default function CompressPage() {
     const [files, setFiles] = useState<File[]>([]);

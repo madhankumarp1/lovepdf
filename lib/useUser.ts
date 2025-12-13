@@ -9,10 +9,7 @@ export function useUser() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!supabase) {
-        setLoading(false);
-        return;
-    }
+
 
     // Check active session
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -27,7 +24,7 @@ export function useUser() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [supabase]);
 
   return { user, loading };
 }
