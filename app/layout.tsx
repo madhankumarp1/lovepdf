@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     creator: '@MadhanK48272026',
   },
   verification: {
-    google: 'google7da33f8848b676f8',
+    google: 'xQN8RTm43qIh2bkF3rvMlYZaac_bs1z-XfNDL41pSBI',
   },
 };
 
