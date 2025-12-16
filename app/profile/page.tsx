@@ -70,12 +70,12 @@ export default function ProfilePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
                             {/* Email Card */}
-                            <div className="p-5 bg-ros-50/10 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-rose-100 text-rose-600 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                                    <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <Mail className="w-5 h-5" />
                                     </div>
-                                    <div className="w-2 h-2 rounded-full bg-green-500 shadow-sm" title="Verified"></div>
+                                    <div className="w-2 h-2 rounded-full bg-green-500" title="Verified"></div>
                                 </div>
                                 <div>
                                     <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Email</p>
@@ -84,12 +84,12 @@ export default function ProfilePage() {
                             </div>
 
                             {/* Plan Card */}
-                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3 relative overflow-hidden">
+                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3 relative overflow-hidden">
                                 <div className="flex items-center justify-between relative z-10">
-                                    <div className="p-2.5 bg-indigo-100 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                    <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
                                         <CreditCard className="w-5 h-5" />
                                     </div>
-                                    <Link href="/pricing" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                    <Link href="/pricing" className="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1">
                                         Upgrade <ChevronRight className="w-3 h-3" />
                                     </Link>
                                 </div>
@@ -103,9 +103,9 @@ export default function ProfilePage() {
                             </div>
 
                             {/* Joined Card */}
-                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-blue-100 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
                                         <Calendar className="w-5 h-5" />
                                     </div>
                                 </div>
@@ -116,9 +116,9 @@ export default function ProfilePage() {
                             </div>
 
                             {/* ID Card */}
-                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-gray-200 text-gray-600 rounded-xl group-hover:bg-gray-800 group-hover:text-white transition-colors">
+                                    <div className="p-2.5 bg-gray-100 text-gray-600 rounded-xl">
                                         <Shield className="w-5 h-5" />
                                     </div>
                                 </div>
