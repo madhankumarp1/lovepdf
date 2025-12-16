@@ -9,7 +9,7 @@ export function Footer() {
                     {/* Brand Column */}
                     <div className="col-span-2 md:col-span-1">
                         <Link href="/" className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-4">
-                            Love PDF
+                            DocMorph
                         </Link>
                         <p className="text-gray-500 mb-6 max-w-sm">
                             Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use.
@@ -64,7 +64,7 @@ export function Footer() {
                     <p className="flex items-center justify-center gap-1 text-gray-500 text-sm">
                         Made with <Heart className="w-4 h-4 text-rose-500 fill-current animate-pulse" /> by Madhankumar
                         <span className="mx-2">•</span>
-                        © {new Date().getFullYear()} Love PDF
+                        © {new Date().getFullYear()} DocMorph
                     </p>
                 </div>
             </div>

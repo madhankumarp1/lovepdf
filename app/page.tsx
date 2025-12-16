@@ -45,12 +45,12 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Love PDF",
-            "url": "https://lovepdf-dun.vercel.app",
+            "name": "DocMorph",
+            "url": "https://docmorph.online",
             "description": "Every tool you need to work with PDFs in one place. Merge, split, compress, and convert PDFs for free.",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://lovepdf-dun.vercel.app/search?q={search_term_string}",
+              "target": "https://docmorph.online/search?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })

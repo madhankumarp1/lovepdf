@@ -9,9 +9,9 @@ export default function DonatePage() {
                 <div className="inline-block p-4 rounded-full bg-rose-50 mb-6">
                     <Heart className="w-12 h-12 text-rose-600 fill-current" />
                 </div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-6">Support Love PDF</h1>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                    We keep Love PDF free and accessible for everyone. If this tool helped you, consider supporting us to help cover server costs!
+                <h1 className="text-4xl font-bold text-gray-900 mb-6">Support DocMorph</h1>
+                <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                    We keep DocMorph free and accessible for everyone. If this tool helped you, consider supporting us to help cover server costs!
                 </p>
             </div>
 
@@ -27,7 +27,10 @@ export default function DonatePage() {
                         </div>
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">{tier.label}</h3>
                         <p className="text-3xl font-bold text-rose-600 mb-6">${tier.amount}</p>
-                        <button className="w-full py-3 rounded-lg border-2 border-rose-600 text-rose-600 font-bold hover:bg-rose-600 hover:text-white transition-all">
+                        <button
+                            onClick={() => window.open("https://www.buymeacoffee.com/madhankumar", "_blank")}
+                            className="w-full py-3 rounded-lg border-2 border-rose-600 text-rose-600 font-bold hover:bg-rose-600 hover:text-white transition-all"
+                        >
                             Donate ${tier.amount}
                         </button>
                     </div>
@@ -36,7 +39,7 @@ export default function DonatePage() {
 
             <div className="bg-gray-50 rounded-2xl p-8 text-center">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Other ways to support</h3>
-                <p className="text-gray-600 mb-6">You can also spread the word by sharing Love PDF with your friends and colleagues!</p>
+                <p className="text-gray-600 mb-6">You can also spread the word by sharing DocMorph with your friends and colleagues!</p>
                 <div className="flex justify-center gap-4 flex-wrap">
                     <a
                         href="https://instagram.com/mannmadhannnn"

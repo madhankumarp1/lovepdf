@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FileUploader } from '@/components/FileUploader';
 import { Download, Minimize2 } from 'lucide-react';
+import api from '@/lib/api';
 
 
 export default function CompressPage() {
@@ -17,15 +18,12 @@ export default function CompressPage() {
             const formData = new FormData();
             formData.append('file', files[0]);
 
-            // TODO: Implement actual backend compression endpoint
-            // For now, we simulate a delay and just return the same file to demonstrate UI
-            // const response = await api.post('/compress', formData, { responseType: 'blob' });
-
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            const response = { data: files[0] }; // Mock response
+            const response = await api.post('/compress', formData, {
+                responseType: 'blob',
+            });
 
             // Create download link
-            const url = window.URL.createObjectURL(new Blob([response.data as BlobPart]));
+            const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', `compressed_${files[0].name}`);

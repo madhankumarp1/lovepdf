@@ -8,28 +8,28 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Love PDF | Online PDF Tools for PDF Lovers',
-    template: '%s | Love PDF'
+    default: 'DocMorph | Online PDF Tools for PDF Lovers',
+    template: '%s | DocMorph'
   },
   description: 'Merge, Split, Compress, convert, rotate, unlock and watermark PDF files with just a few clicks. 100% Free and easy to use.',
-  keywords: ['merge pdf', 'split pdf', 'compress pdf', 'convert pdf', 'pdf tools', 'free pdf tools', 'love pdf', 'ilovepdf clone'],
+  keywords: ['merge pdf', 'split pdf', 'compress pdf', 'convert pdf', 'pdf tools', 'free pdf tools', 'docmorph', 'ilovepdf clone'],
   authors: [{ name: 'Madhankumar' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://lovepdf.vercel.app',
-    title: 'Love PDF | Online PDF Tools for PDF Lovers',
+    url: 'https://docmorph.online',
+    title: 'DocMorph | Online PDF Tools for PDF Lovers',
     description: 'Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!',
-    siteName: 'Love PDF',
+    siteName: 'DocMorph',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Love PDF | Online PDF Tools',
+    title: 'DocMorph | Online PDF Tools',
     description: '100% Free PDF tools. Merge, Split, Compress and more.',
     creator: '@MadhanK48272026',
   },
   verification: {
-    google: 'xQN8RTm43qIh2bkF3rvMlYZaac_bs1z-XfNDL41pSBI',
+    google: 'DgteCEDYckDWnfkSCKZfyJSx6MNzUPkj5G2v9PLzpO0',
   },
 };
 

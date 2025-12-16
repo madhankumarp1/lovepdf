@@ -24,7 +24,7 @@ export function Navbar() {
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl text-rose-600 transition-transform hover:scale-105">
                         <Heart className="fill-current w-6 h-6" />
-                        <span>Love PDF</span>
+                        <span>DocMorph</span>
                     </Link>
 
                     <div className="hidden md:flex gap-8 text-sm font-medium text-gray-600">
