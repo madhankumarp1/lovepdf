@@ -65,66 +65,70 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* Scrollable Content Area (if screen is very small) */}
-                    <div className="flex-1 overflow-y-auto px-6 py-2">
+                    {/* Vertical Grid Content */}
+                    <div className="flex-1 overflow-y-auto px-6 py-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
-                        {/* Email Row - Compact */}
-                        <div className="py-3 flex items-center justify-between group">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
-                                    <Mail className="w-4 h-4" />
+                            {/* Email Card */}
+                            <div className="p-5 bg-ros-50/10 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-rose-100 text-rose-600 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                                        <Mail className="w-5 h-5" />
+                                    </div>
+                                    <div className="w-2 h-2 rounded-full bg-green-500 shadow-sm" title="Verified"></div>
                                 </div>
-                                <span className="text-sm font-semibold text-gray-700">Email</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-600 truncate max-w-[150px] sm:max-w-xs">{user.email}</span>
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500" title="Verified"></div>
-                            </div>
-                        </div>
-
-                        <hr className="border-gray-50" />
-
-                        {/* Plan Row - Compact */}
-                        <div className="py-3 flex items-center justify-between group cursor-pointer hover:bg-gray-50/50 -mx-6 px-6 transition-colors">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
-                                    <CreditCard className="w-4 h-4" />
+                                <div>
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Email</p>
+                                    <p className="text-sm font-bold text-gray-900 truncate" title={user.email}>{user.email}</p>
                                 </div>
-                                <span className="text-sm font-semibold text-gray-700">Plan</span>
                             </div>
-                            <Link href="/pricing" className="flex items-center gap-1 text-sm text-rose-600 font-medium hover:underline">
-                                Free Plan <ChevronRight className="w-4 h-4" />
-                            </Link>
-                        </div>
 
-                        <hr className="border-gray-50" />
-
-                        {/* Member Since Row - Compact */}
-                        <div className="py-3 flex items-center justify-between group">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                                    <Calendar className="w-4 h-4" />
+                            {/* Plan Card */}
+                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3 relative overflow-hidden">
+                                <div className="flex items-center justify-between relative z-10">
+                                    <div className="p-2.5 bg-indigo-100 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                        <CreditCard className="w-5 h-5" />
+                                    </div>
+                                    <Link href="/pricing" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                                        Upgrade <ChevronRight className="w-3 h-3" />
+                                    </Link>
                                 </div>
-                                <span className="text-sm font-semibold text-gray-700">Joined</span>
-                            </div>
-                            <span className="text-sm text-gray-600">{memberSince}</span>
-                        </div>
-
-                        <hr className="border-gray-50" />
-
-                        {/* ID Row - Compact */}
-                        <div className="py-3 flex items-center justify-between group">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-50 text-gray-600 rounded-lg">
-                                    <Shield className="w-4 h-4" />
+                                <div className="relative z-10">
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Plan</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-sm font-bold text-gray-900">Free Tier</p>
+                                        <Sparkles className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                                    </div>
                                 </div>
-                                <span className="text-sm font-semibold text-gray-700">ID</span>
                             </div>
-                            <code className="text-xs bg-gray-100 px-2 py-0.5 rounded text-gray-500 font-mono truncate max-w-[120px] sm:max-w-none">
-                                {user.id}
-                            </code>
-                        </div>
 
+                            {/* Joined Card */}
+                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-blue-100 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                        <Calendar className="w-5 h-5" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Joined</p>
+                                    <p className="text-sm font-bold text-gray-900">{memberSince}</p>
+                                </div>
+                            </div>
+
+                            {/* ID Card */}
+                            <div className="p-5 border border-gray-100 rounded-2xl bg-gray-50/50 hover:bg-white transition-all shadow-sm hover:shadow-md group flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-gray-200 text-gray-600 rounded-xl group-hover:bg-gray-800 group-hover:text-white transition-colors">
+                                        <Shield className="w-5 h-5" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">User ID</p>
+                                    <p className="text-xs font-mono text-gray-600 truncate bg-gray-100 p-1 rounded mt-1">{user.id}</p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     {/* Footer / Logout */}
