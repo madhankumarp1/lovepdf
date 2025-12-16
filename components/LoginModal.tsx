@@ -31,7 +31,8 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
         const { error } = await supabase.auth.signInWithOtp({
             email,
             options: {
-                emailRedirectTo: window.location.origin,
+                // Force production URL to avoid localhost fallback
+                emailRedirectTo: 'https://docmorph.online',
             },
         });
 
