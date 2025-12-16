@@ -1,16 +1,15 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Split PDF - Separate PDF Pages Online',
-    description: 'Split PDF files into individual pages or extract specific pages. 100% free and easy to use.',
+    title: 'Split PDF file | DocMorph',
+    description: 'Separate one page or a whole set for easy conversion into independent PDF files.',
     openGraph: {
-        title: 'Split PDF - Separate PDF Pages Online',
-        description: 'Split PDF files into individual pages or extract specific pages. 100% free and easy to use.',
-        url: 'https://lovepdf-dun.vercel.app/split',
+        title: 'Split PDF file | DocMorph',
+        description: 'Separate one page or a whole set for easy conversion into independent PDF files.',
     },
 };
 
-export default function Layout({
+export default function SplitLayout({
     children,
 }: {
     children: React.ReactNode;
