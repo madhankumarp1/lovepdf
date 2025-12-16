@@ -42,10 +42,10 @@ export default function ProfilePage() {
 
     return (
         // Use calc(100vh - navbar_height) to fit exactly without scroll
-        <div className="h-[calc(100vh-64px)] flex items-center justify-center p-4 bg-gray-50/50 overflow-hidden">
-            <div className="w-full max-w-2xl">
+        <div className="h-[calc(100vh-64px)] p-2 md:p-6 bg-gray-50/50 overflow-hidden flex flex-col">
+            <div className="w-full h-full max-w-7xl mx-auto">
                 {/* Glassmorphism Card */}
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 overflow-hidden relative flex flex-col max-h-[calc(100vh-100px)]">
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 overflow-hidden relative flex flex-col h-full">
 
                     {/* Decorative Gradient Blob */}
                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none"></div>
