@@ -38,7 +38,9 @@ export function Navbar() {
                         {!loading && (
                             user ? (
                                 <div className="flex items-center gap-4">
-                                    <span className="text-sm text-gray-700 hidden sm:inline">Hi, {user.email?.split('@')[0]}</span>
+                                    <Link href="/profile" className="text-sm text-gray-700 hidden sm:inline hover:text-rose-600 transition-colors font-medium">
+                                        Hi, {user.email?.split('@')[0]}
+                                    </Link>
                                     <button onClick={handleLogout} className="text-sm font-semibold hover:text-rose-600">Log out</button>
                                 </div>
                             ) : (
