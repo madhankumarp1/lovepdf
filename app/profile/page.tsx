@@ -136,28 +136,28 @@ export default function ProfilePage() {
 
                 {/* Stats Grid (New Feature, Clean Look) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col justify-center">
+                    <div className="p-6 border border-gray-100 rounded-2xl bg-white shadow-sm flex flex-col justify-center transition-transform hover:scale-[1.02]">
                         <div className="flex items-center gap-3 mb-2 text-gray-500">
                             <FileCheck className="w-5 h-5" />
-                            <span className="text-sm font-medium uppercase">Files Processed</span>
+                            <span className="text-sm font-medium uppercase tracking-wide">Files Processed</span>
                         </div>
                         <p className="text-3xl font-bold text-gray-900">{totalFiles}</p>
                     </div>
-                    <div className="p-6 border border-gray-100 rounded-2xl bg-gray-50/50 flex flex-col justify-center">
+                    <div className="p-6 border border-gray-100 rounded-2xl bg-white shadow-sm flex flex-col justify-center transition-transform hover:scale-[1.02]">
                         <div className="flex items-center gap-3 mb-2 text-gray-500">
                             <HardDrive className="w-5 h-5" />
-                            <span className="text-sm font-medium uppercase">Storage Used</span>
+                            <span className="text-sm font-medium uppercase tracking-wide">Storage Used</span>
                         </div>
                         <p className="text-3xl font-bold text-gray-900">{totalStorage}</p>
                     </div>
-                    <div className={`p-6 border rounded-2xl flex flex-col justify-center ${bgColor} ${borderColor}`}>
+                    <div className={`p-6 border rounded-2xl flex flex-col justify-center ${bgColor} ${borderColor} shadow-sm transition-transform hover:scale-[1.02]`}>
                         <div className={`flex items-center gap-3 mb-2 ${accentColor}`}>
                             <CreditCard className="w-5 h-5" />
-                            <span className="text-sm font-bold uppercase">Current Plan</span>
+                            <span className="text-sm font-bold uppercase tracking-wide">Current Plan</span>
                         </div>
                         <div className="flex items-center justify-between">
                             <p className={`text-3xl font-bold ${accentColor}`}>{tier.charAt(0).toUpperCase() + tier.slice(1)}</p>
-                            {isFree && <Link href="/pricing" className="text-xs bg-white px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-md transition-shadow">Upgrade</Link>}
+                            {isFree && <Link href="/pricing" className="text-xs bg-white px-3 py-1 rounded-full font-bold shadow-sm hover:shadow-md transition-shadow text-gray-700">Upgrade</Link>}
                         </div>
                     </div>
                 </div>
@@ -221,25 +221,29 @@ export default function ProfilePage() {
                             </div>
                         )}
 
-                        <div className="p-6 rounded-2xl border border-gray-200 bg-white shadow-sm w-full">
-                            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Account Details</h3>
-                            <div className="space-y-4">
-                                <div className="group">
-                                    <p className="text-xs text-gray-500 mb-1">Email Address</p>
-                                    <p className="font-medium text-gray-900 break-all">{user.email}</p>
+                        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm w-full overflow-hidden">
+                            <div className="bg-gray-50/50 px-6 py-4 border-b border-gray-100">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest">Account Details</h3>
+                            </div>
+                            <div className="p-6 grid gap-6">
+                                <div>
+                                    <p className="text-xs text-gray-400 mb-1.5 font-medium">Email Address</p>
+                                    <p className="font-semibold text-gray-900 break-all">{user.email}</p>
                                 </div>
 
-                                <div className="flex items-center justify-between text-sm py-2 border-t border-gray-50">
-                                    <span className="text-gray-500">Joined</span>
-                                    <span className="font-medium text-gray-900">{new Date(user.created_at).toLocaleDateString()}</span>
+                                <div>
+                                    <p className="text-xs text-gray-400 mb-1.5 font-medium">Member Since</p>
+                                    <p className="font-semibold text-gray-900">{new Date(user.created_at).toLocaleDateString()}</p>
                                 </div>
 
-                                <div className="pt-2 border-t border-gray-50">
-                                    <p className="text-xs text-gray-500 mb-1">User ID</p>
-                                    <div className="flex items-center justify-between bg-gray-50 p-2 rounded-lg text-xs text-gray-600 border border-gray-100">
-                                        <code className="truncate flex-1 font-mono">{user.id}</code>
-                                        <button onClick={() => navigator.clipboard.writeText(user.id)} className="ml-2 text-gray-400 hover:text-gray-900 p-1 hover:bg-gray-200 rounded transition-colors" title="Copy ID">
-                                            <Copy className="w-3.5 h-3.5" />
+                                <div>
+                                    <p className="text-xs text-gray-400 mb-1.5 font-medium">User ID</p>
+                                    <div className="flex items-center gap-2">
+                                        <code className="bg-gray-100 px-3 py-2 rounded-lg text-xs text-gray-600 font-mono truncate flex-1 border border-gray-200">
+                                            {user.id}
+                                        </code>
+                                        <button onClick={() => navigator.clipboard.writeText(user.id)} className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors" title="Copy ID">
+                                            <Copy className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </div>
