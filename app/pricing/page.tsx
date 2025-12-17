@@ -1,9 +1,30 @@
 "use client";
 
-import { Check, X } from 'lucide-react';
+import { Check, X, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useUser } from '@/lib/useUser';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function PricingPage() {
+    const { user } = useUser();
+    const [tier, setTier] = useState<string>('free');
+
+    useEffect(() => {
+        if (user) {
+            supabase
+                .from('profiles')
+                .select('tier')
+                .eq('id', user.id)
+                .single()
+                .then(({ data }) => {
+                    if (data) setTier(data.tier);
+                });
+        }
+    }, [user]);
+
+    const isPro = tier === 'pro' || tier === 'business';
+
     return (
         <div className="container mx-auto px-4 py-16">
             <div className="text-center mb-16">
@@ -49,9 +70,9 @@ export default function PricingPage() {
                 </div>
 
                 {/* Pro Tier (Popular) */}
-                <div className="border-2 border-rose-500 rounded-2xl p-8 shadow-xl bg-white flex flex-col relative transform md:-translate-y-4">
-                    <div className="absolute top-0 right-0 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-xl">
-                        POPULAR
+                <div className={`border-2 ${isPro ? 'border-amber-400 bg-amber-50/10' : 'border-rose-500 bg-white'} rounded-2xl p-8 shadow-xl flex flex-col relative transform md:-translate-y-4 transition-all duration-300`}>
+                    <div className={`absolute top-0 right-0 ${isPro ? 'bg-amber-500' : 'bg-rose-500'} text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-xl`}>
+                        {isPro ? 'YOUR PLAN' : 'POPULAR'}
                     </div>
                     <div className="mb-8">
                         <h3 className="text-xl font-bold text-gray-900 mb-2">Pro</h3>
@@ -63,25 +84,33 @@ export default function PricingPage() {
                     </div>
                     <ul className="mb-8 space-y-4 flex-1">
                         <li className="flex items-center gap-3 text-gray-700">
-                            <Check className="w-5 h-5 text-rose-500 flex-shrink-0" />
+                            <Check className={`w-5 h-5 ${isPro ? 'text-amber-500' : 'text-rose-500'} flex-shrink-0`} />
                             <span>Unlimited document size</span>
                         </li>
                         <li className="flex items-center gap-3 text-gray-700">
-                            <Check className="w-5 h-5 text-rose-500 flex-shrink-0" />
+                            <Check className={`w-5 h-5 ${isPro ? 'text-amber-500' : 'text-rose-500'} flex-shrink-0`} />
                             <span>Process unlimited files</span>
                         </li>
                         <li className="flex items-center gap-3 text-gray-700">
-                            <Check className="w-5 h-5 text-rose-500 flex-shrink-0" />
+                            <Check className={`w-5 h-5 ${isPro ? 'text-amber-500' : 'text-rose-500'} flex-shrink-0`} />
                             <span>No ads</span>
                         </li>
                         <li className="flex items-center gap-3 text-gray-700">
-                            <Check className="w-5 h-5 text-rose-500 flex-shrink-0" />
+                            <Check className={`w-5 h-5 ${isPro ? 'text-amber-500' : 'text-rose-500'} flex-shrink-0`} />
                             <span>Priority email support</span>
                         </li>
                     </ul>
-                    <Link href="/donate" className="block w-full py-3 px-6 text-center text-white font-bold bg-rose-600 rounded-xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">
-                        Upgrade to Pro
-                    </Link>
+
+                    {isPro ? (
+                        <div className="block w-full py-3 px-6 text-center text-amber-600 font-bold bg-amber-100 border border-amber-200 rounded-xl shadow-inner cursor-default flex items-center justify-center gap-2">
+                            <Sparkles className="w-5 h-5" />
+                            Current Plan Active
+                        </div>
+                    ) : (
+                        <Link href="/donate" className="block w-full py-3 px-6 text-center text-white font-bold bg-rose-600 rounded-xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">
+                            Upgrade to Pro
+                        </Link>
+                    )}
                 </div>
 
                 {/* Business Tier */}
