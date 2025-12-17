@@ -118,7 +118,7 @@ export default function ProfilePage() {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50/50 pb-12">
+        <div className="min-h-screen bg-gray-50/50 pb-12 overflow-x-hidden">
 
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none z-0"></div>
@@ -208,8 +208,8 @@ export default function ProfilePage() {
 
                     {/* Right Column: Recent Files */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden min-h-[500px] flex flex-col">
-                            <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+                            <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white">
                                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                                     <Clock className="w-5 h-5 text-rose-500" />
                                     Recent Files
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                                 <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto">
+                            <div className="">
                                 {loadingFiles ? (
                                     <div className="h-40 flex items-center justify-center text-gray-400 text-sm">
                                         <div className="flex flex-col items-center gap-2">
