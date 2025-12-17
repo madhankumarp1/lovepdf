@@ -1,16 +1,17 @@
 "use client";
-
 import { useState } from 'react';
 import { FileUploader } from '@/components/FileUploader';
 import { FileText, Trash2, ArrowRight } from 'lucide-react';
-import api from '@/lib/api';
+import { PDFDocument } from 'pdf-lib';
+import { supabase } from '@/lib/supabase';
+import { useUser } from '@/lib/useUser';
 
 export default function MergePage() {
     const [files, setFiles] = useState<File[]>([]);
     const [isProcessing, setIsProcessing] = useState(false);
+    const { user } = useUser();
 
     const handleFilesSelected = (newFiles: File[]) => {
-        // Append new files to existing ones
         setFiles(prev => [...prev, ...newFiles]);
     };
 
@@ -25,24 +26,63 @@ export default function MergePage() {
         }
 
         setIsProcessing(true);
-        const formData = new FormData();
-        files.forEach((file) => {
-            formData.append('files', file);
-        });
-
         try {
-            const response = await api.post('/merge', formData, {
-                responseType: 'blob', // Important for file download
-            });
+            // 1. Create a new PDF document
+            const mergedPdf = await PDFDocument.create();
 
-            // Create download link
-            const url = window.URL.createObjectURL(new Blob([response.data]));
+            // 2. Load and copy pages from each file
+            for (const file of files) {
+                const fileBuffer = await file.arrayBuffer();
+                const pdf = await PDFDocument.load(fileBuffer);
+                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                copiedPages.forEach((page) => mergedPdf.addPage(page));
+            }
+
+            // 3. Save the merged PDF
+            const pdfBytes = await mergedPdf.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+            // 4. Download file immediately
+            const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'merged_love_pdf.pdf');
+            link.download = `merged_${Date.now()}.pdf`;
             document.body.appendChild(link);
             link.click();
             link.remove();
+
+            // 5. Upload to Supabase if logged in
+            if (user) {
+                const fileName = `merged_${Date.now()}.pdf`;
+                const filePath = `${user.id}/${fileName}`;
+
+                // Upload to Storage
+                const { error: uploadError } = await supabase.storage
+                    .from('user-files')
+                    .upload(filePath, blob, {
+                        contentType: 'application/pdf',
+                        upsert: false
+                    });
+
+                if (uploadError) {
+                    console.error('Supabase upload error:', uploadError);
+                } else {
+                    // Check if file exists in DB to avoid duplicates (optional but good practice)
+                    // Insert into DB
+                    const { data: publicUrlData } = supabase.storage
+                        .from('user-files')
+                        .getPublicUrl(filePath);
+
+                    await supabase.from('files').insert({
+                        user_id: user.id,
+                        name: fileName,
+                        url: publicUrlData.publicUrl,
+                        size: pdfBytes.length,
+                        type: 'application/pdf'
+                    });
+                }
+            }
+
         } catch (error) {
             console.error("Merge failed", error);
             alert("Failed to merge PDFs. Please try again.");
@@ -56,6 +96,11 @@ export default function MergePage() {
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-gray-900 mb-4">Merge PDF files</h1>
                 <p className="text-xl text-gray-600">Combine PDFs in the order you want with the easiest PDF merger available.</p>
+                {!user && (
+                    <p className="text-sm text-rose-500 mt-2 font-medium">
+                        (Log in to save your merged files to your profile!)
+                    </p>
+                )}
             </div>
 
             {files.length === 0 ? (
