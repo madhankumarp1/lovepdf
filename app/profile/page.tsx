@@ -20,6 +20,7 @@ export default function ProfilePage() {
     const router = useRouter();
     const [recentFiles, setRecentFiles] = useState<FileRecord[]>([]);
     const [loadingFiles, setLoadingFiles] = useState(true);
+    const [profile, setProfile] = useState<any>(null);
 
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -32,8 +33,23 @@ export default function ProfilePage() {
     useEffect(() => {
         if (user) {
             fetchRecentFiles();
+            fetchProfile();
         }
     }, [user]);
+
+    const fetchProfile = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', user!.id)
+                .single();
+
+            if (data) setProfile(data);
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
 
     const fetchRecentFiles = async () => {
         setErrorMsg(null);
@@ -117,6 +133,8 @@ export default function ProfilePage() {
         year: 'numeric'
     });
 
+    const isPro = profile?.tier === 'pro' || profile?.tier === 'business';
+
     return (
         <div className="min-h-screen bg-gray-50/50 pb-12 overflow-x-hidden">
 
@@ -134,9 +152,9 @@ export default function ProfilePage() {
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
                             <p className="text-gray-500">{user.email}</p>
-                            <div className="mt-2 inline-flex px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded-full items-center gap-1.5 border border-rose-200">
+                            <div className={`mt-2 inline-flex px-3 py-1 text-xs font-bold rounded-full items-center gap-1.5 border ${isPro ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
                                 <Sparkles className="w-3 h-3" />
-                                Free Account
+                                {isPro ? 'Pro Account' : 'Free Account'}
                             </div>
                         </div>
                     </div>
@@ -201,20 +219,39 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-rose-500 to-orange-600 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
-                            <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-                            <div className="relative z-10">
-                                <div className="flex items-center justify-between mb-4">
-                                    <CreditCard className="w-8 h-8 opacity-80" />
-                                    <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm border border-white/10">Free Plan</span>
+                        {!isPro && (
+                            <div className="bg-gradient-to-br from-rose-500 to-orange-600 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+                                <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                                <div className="relative z-10">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <CreditCard className="w-8 h-8 opacity-80" />
+                                        <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm border border-white/10">Free Plan</span>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-1">Upgrade to Pro</h3>
+                                    <p className="text-rose-100 text-sm mb-6">Unlock unlimited PDF tools and higher file limits.</p>
+                                    <Link href="/pricing" className="block w-full py-2.5 bg-white text-rose-600 text-center font-bold rounded-lg hover:bg-rose-50 transition-colors shadow-sm">
+                                        View Plans
+                                    </Link>
                                 </div>
-                                <h3 className="text-xl font-bold mb-1">Upgrade to Pro</h3>
-                                <p className="text-rose-100 text-sm mb-6">Unlock unlimited PDF tools and higher file limits.</p>
-                                <Link href="/pricing" className="block w-full py-2.5 bg-white text-rose-600 text-center font-bold rounded-lg hover:bg-rose-50 transition-colors shadow-sm">
-                                    View Plans
-                                </Link>
                             </div>
-                        </div>
+                        )}
+
+                        {isPro && (
+                            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+                                <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                                <div className="relative z-10">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <Sparkles className="w-8 h-8 text-amber-400" />
+                                        <span className="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold backdrop-blur-sm border border-amber-500/20">Pro Active</span>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-1">Pro Account</h3>
+                                    <p className="text-gray-400 text-sm mb-6">You have access to all premium features.</p>
+                                    <div className="w-full py-2.5 bg-gray-800 text-gray-400 text-center font-bold rounded-lg border border-gray-700">
+                                        Manage Subscription
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column: Recent Files */}
