@@ -37,7 +37,7 @@ export default function PricingPage() {
 
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {/* Free Tier */}
-                <div className="border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow bg-white flex flex-col">
+                <div className={`border ${tier === 'free' ? 'border-gray-400 bg-gray-50' : 'border-gray-200 bg-white'} rounded-2xl p-8 hover:shadow-lg transition-shadow flex flex-col`}>
                     <div className="mb-8">
                         <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
                         <p className="text-gray-500 mb-6">For casual PDF users</p>
@@ -64,9 +64,16 @@ export default function PricingPage() {
                             <span>No priority support</span>
                         </li>
                     </ul>
-                    <Link href="/" className="block w-full py-3 px-6 text-center text-rose-600 font-bold border-2 border-rose-100 rounded-xl hover:bg-rose-50 transition-colors">
-                        Get Started
-                    </Link>
+
+                    {tier === 'free' ? (
+                        <div className="block w-full py-3 px-6 text-center text-gray-500 font-bold bg-gray-100 border border-gray-200 rounded-xl cursor-default">
+                            Current Plan
+                        </div>
+                    ) : (
+                        <Link href="/" className="block w-full py-3 px-6 text-center text-rose-600 font-bold border-2 border-rose-100 rounded-xl hover:bg-rose-50 transition-colors">
+                            Get Started
+                        </Link>
+                    )}
                 </div>
 
                 {/* Pro Tier (Popular) */}
