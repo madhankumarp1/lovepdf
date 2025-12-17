@@ -91,11 +91,14 @@ export default function ProfilePage() {
 
     // Simple Color Logic
     const accentColor = isBusiness ? 'text-purple-600' : isPro ? 'text-amber-600' : 'text-rose-600';
-    const bgColor = isBusiness ? 'bg-purple-50' : isPro ? 'bg-amber-50' : 'bg-rose-50';
+
+    // Backgrounds
+    const pageBg = isBusiness ? 'bg-purple-50' : isPro ? 'bg-amber-50' : 'bg-rose-50';
+    const bgColor = isBusiness ? 'bg-purple-100' : isPro ? 'bg-amber-100' : 'bg-rose-100';
     const borderColor = isBusiness ? 'border-purple-200' : isPro ? 'border-amber-200' : 'border-rose-200';
 
     return (
-        <div className="min-h-screen bg-white pt-24 pb-12">
+        <div className={`min-h-screen ${isFree ? 'bg-gray-50' : pageBg} pt-24 pb-12 transition-colors duration-500`}>
             <div className="container mx-auto px-4 max-w-5xl">
 
                 {/* Header Section (Simple) */}
