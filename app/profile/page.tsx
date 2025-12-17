@@ -4,7 +4,7 @@ import { useUser } from '@/lib/useUser';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { LogOut, Mail, Calendar, CreditCard, Sparkles, ChevronRight, Shield, FileText, Download, Trash2, Clock } from 'lucide-react';
+import { FileText, Download, Trash2, LogOut, Upload, User as UserIcon, Settings, CreditCard, Clock, Shield, Sparkles, Mail, Calendar, Copy } from 'lucide-react';
 import Link from 'next/link';
 
 interface FileRecord {
@@ -184,7 +184,18 @@ export default function ProfilePage() {
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="text-sm font-medium text-gray-900">User ID</p>
-                                        <p className="text-xs font-mono text-gray-500 truncate bg-gray-50 p-1 rounded mt-0.5">{user.id}</p>
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-xs font-mono text-gray-500 truncate bg-gray-50 p-1.5 rounded mt-0.5 max-w-[140px] select-all">
+                                                {user.id}
+                                            </p>
+                                            <button
+                                                onClick={() => navigator.clipboard.writeText(user.id)}
+                                                className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors"
+                                                title="Copy ID"
+                                            >
+                                                <Copy className="w-3 h-3" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -214,29 +225,7 @@ export default function ProfilePage() {
                                     <Clock className="w-5 h-5 text-rose-500" />
                                     Recent Files
                                 </h2>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={async () => {
-                                            if (!user) return;
-                                            const { error } = await supabase.from('files').insert({
-                                                user_id: user.id,
-                                                name: 'Test File.pdf',
-                                                url: 'https://example.com',
-                                                size: 12345,
-                                                type: 'application/pdf'
-                                            });
-                                            if (error) alert('DB Insert Error: ' + error.message);
-                                            else {
-                                                alert('DB Insert Success! RLS is working.');
-                                                fetchRecentFiles();
-                                            }
-                                        }}
-                                        className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-gray-600"
-                                    >
-                                        Debug DB
-                                    </button>
-                                    <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
-                                </div>
+                                <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
                             </div>
 
                             <div className="">
