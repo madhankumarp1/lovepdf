@@ -21,6 +21,8 @@ export default function ProfilePage() {
     const [recentFiles, setRecentFiles] = useState<FileRecord[]>([]);
     const [loadingFiles, setLoadingFiles] = useState(true);
 
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
     useEffect(() => {
         if (!loading && !user) {
             router.push('/');
@@ -34,6 +36,7 @@ export default function ProfilePage() {
     }, [user]);
 
     const fetchRecentFiles = async () => {
+        setErrorMsg(null);
         try {
             const { data, error } = await supabase
                 .from('files')
@@ -44,8 +47,9 @@ export default function ProfilePage() {
 
             if (error) throw error;
             setRecentFiles(data || []);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching files:', error);
+            setErrorMsg(error.message || 'Failed to load files');
         } finally {
             setLoadingFiles(false);
         }
@@ -55,15 +59,6 @@ export default function ProfilePage() {
         if (!confirm('Are you sure you want to delete this file?')) return;
 
         try {
-            // Delete from Storage
-            // Extract path relative to bucket if needed, but we stored full path "userId/filename" probably
-            // Wait, we stored `url` in DB which is the public URL.
-            // We need the storage path to delete.
-            // In API we did: const filePath = `${user.id}/${fileName}`;
-            // And inserted `name` as fileName.
-            // So path is likely `${user!.id}/${fileRecord.name}`
-
-            // Wait, we need to be careful. Let's get the file object.
             const fileToDelete = recentFiles.find(f => f.id === fileId);
             if (!fileToDelete) return;
 
@@ -75,7 +70,6 @@ export default function ProfilePage() {
 
             if (storageError) {
                 console.error('Storage delete error:', storageError);
-                // Continue to delete from DB anyway? Or warn?
             }
 
             const { error: dbError } = await supabase
@@ -86,7 +80,6 @@ export default function ProfilePage() {
             if (dbError) throw dbError;
 
             setRecentFiles(prev => prev.filter(f => f.id !== fileId));
-            // alert('File deleted'); // Or use toast if available
         } catch (error) {
             console.error('Error deleting file:', error);
             alert('Failed to delete file');
@@ -110,7 +103,7 @@ export default function ProfilePage() {
 
     if (loading) {
         return (
-            <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+            <div className="min-h-screen pt-20 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-600"></div>
             </div>
         );
@@ -125,124 +118,145 @@ export default function ProfilePage() {
     });
 
     return (
-        // Use calc(100vh - navbar_height) to fit exactly without scroll
-        <div className="h-[calc(100vh-64px)] p-2 md:p-6 bg-gray-50/50 overflow-hidden flex flex-col">
-            <div className="w-full h-full max-w-7xl mx-auto">
-                {/* Glassmorphism Card */}
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 overflow-hidden relative flex flex-col h-full">
+        <div className="min-h-screen bg-gray-50/50 pb-12">
 
-                    {/* Decorative Gradient Blob */}
-                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none"></div>
+            {/* Background Decoration */}
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-rose-400/10 rounded-full blur-3xl pointer-events-none z-0"></div>
 
-                    {/* Compact Header */}
-                    <div className="p-6 border-b border-gray-100 flex items-center gap-5 bg-gradient-to-r from-rose-50/50 to-white/50">
-                        <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-rose-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md shrink-0">
+            <div className="container mx-auto px-4 pt-8 md:pt-12 relative z-10 max-w-7xl">
+
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                    <div className="flex items-center gap-5">
+                        <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-rose-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg shrink-0">
                             {user.email?.[0]?.toUpperCase() || 'U'}
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <h1 className="text-xl font-bold text-gray-900 truncate">My Profile</h1>
-                            <p className="text-sm text-gray-500 truncate">{user.email}</p>
-                        </div>
-                        <div className="px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded-full flex items-center gap-1.5 border border-rose-200 shrink-0">
-                            <Sparkles className="w-3 h-3" />
-                            Free
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+                            <p className="text-gray-500">{user.email}</p>
+                            <div className="mt-2 inline-flex px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded-full items-center gap-1.5 border border-rose-200">
+                                <Sparkles className="w-3 h-3" />
+                                Free Account
+                            </div>
                         </div>
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        className="self-start md:self-center px-6 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-bold rounded-xl hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all flex items-center gap-2 shadow-sm"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                    </button>
+                </div>
 
-                    {/* Vertical Grid Content */}
-                    <div className="flex-1 overflow-y-auto px-6 py-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                            {/* Email Card */}
-                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
-                                <div className="flex items-center justify-between">
+                    {/* Left Column: Stats & Info */}
+                    <div className="lg:col-span-1 space-y-6">
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wide mb-4">Account Details</h3>
+
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
                                     <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <Mail className="w-5 h-5" />
                                     </div>
-                                    <div className="w-2 h-2 rounded-full bg-green-500" title="Verified"></div>
-                                </div>
-                                <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Email</p>
-                                    <p className="text-sm font-bold text-gray-900 truncate" title={user.email}>{user.email}</p>
-                                </div>
-                            </div>
-
-                            {/* Plan Card */}
-                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3 relative overflow-hidden">
-                                <div className="flex items-center justify-between relative z-10">
-                                    <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
-                                        <CreditCard className="w-5 h-5" />
-                                    </div>
-                                    <Link href="/pricing" className="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1">
-                                        Upgrade <ChevronRight className="w-3 h-3" />
-                                    </Link>
-                                </div>
-                                <div className="relative z-10">
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Plan</p>
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-sm font-bold text-gray-900">Free Tier</p>
-                                        <Sparkles className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-medium text-gray-900 truncate">{user.email}</p>
+                                        <p className="text-xs text-green-600 font-medium">Verified</p>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Joined Card */}
-                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
                                     <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
                                         <Calendar className="w-5 h-5" />
                                     </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-medium text-gray-900">Member Since</p>
+                                        <p className="text-xs text-gray-500">{memberSince}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">Joined</p>
-                                    <p className="text-sm font-bold text-gray-900">{memberSince}</p>
-                                </div>
-                            </div>
 
-                            {/* ID Card */}
-                            <div className="p-5 bg-gray-50/50 rounded-2xl flex flex-col gap-3">
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
                                     <div className="p-2.5 bg-gray-100 text-gray-600 rounded-xl">
                                         <Shield className="w-5 h-5" />
                                     </div>
-                                </div>
-                                <div>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wide">User ID</p>
-                                    <p className="text-xs font-mono text-gray-600 truncate bg-gray-100 p-1 rounded mt-1">{user.id}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-medium text-gray-900">User ID</p>
+                                        <p className="text-xs font-mono text-gray-500 truncate bg-gray-50 p-1 rounded mt-0.5">{user.id}</p>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        {/* Recent Files Section */}
-                        <div className="mt-8">
-                            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <Clock className="w-5 h-5 text-rose-500" />
-                                Recent Files
-                            </h2>
+                        <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+                            <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+                            <div className="relative z-10">
+                                <div className="flex items-center justify-between mb-4">
+                                    <CreditCard className="w-8 h-8 opacity-80" />
+                                    <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm border border-white/10">Free Plan</span>
+                                </div>
+                                <h3 className="text-xl font-bold mb-1">Upgrade to Pro</h3>
+                                <p className="text-indigo-100 text-sm mb-6">Unlock unlimited PDF tools and higher file limits.</p>
+                                <Link href="/pricing" className="block w-full py-2.5 bg-white text-indigo-600 text-center font-bold rounded-lg hover:bg-indigo-50 transition-colors shadow-sm">
+                                    View Plans
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div className="bg-white/50 rounded-2xl border border-gray-100 overflow-hidden">
+                    {/* Right Column: Recent Files */}
+                    <div className="lg:col-span-2">
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden min-h-[500px] flex flex-col">
+                            <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+                                <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                    <Clock className="w-5 h-5 text-rose-500" />
+                                    Recent Files
+                                </h2>
+                                <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto">
                                 {loadingFiles ? (
-                                    <div className="p-8 text-center text-gray-400 text-sm">Loading files...</div>
+                                    <div className="h-40 flex items-center justify-center text-gray-400 text-sm">
+                                        <div className="flex flex-col items-center gap-2">
+                                            <div className="w-5 h-5 border-2 border-rose-500/30 border-t-rose-500 rounded-full animate-spin"></div>
+                                            Loading files...
+                                        </div>
+                                    </div>
+                                ) : errorMsg ? (
+                                    <div className="p-8 text-center">
+                                        <div className="bg-red-50 text-red-600 p-4 rounded-xl inline-block mb-3 text-sm max-w-md">
+                                            <strong>Error:</strong> {errorMsg}
+                                        </div>
+                                        <p className="text-sm text-gray-500">
+                                            Please ensuring you have run the database migration (SQL) in Supabase.
+                                        </p>
+                                    </div>
                                 ) : recentFiles.length === 0 ? (
-                                    <div className="p-8 text-center text-gray-400 text-sm flex flex-col items-center gap-2">
-                                        <FileText className="w-8 h-8 opacity-20" />
+                                    <div className="h-60 flex flex-col items-center justify-center text-gray-400 text-sm gap-3">
+                                        <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center">
+                                            <FileText className="w-8 h-8 opacity-20" />
+                                        </div>
                                         <p>No processed files yet.</p>
-                                        <Link href="/" className="text-rose-500 hover:underline">Try a tool</Link>
+                                        <Link href="/" className="px-5 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 text-sm font-bold shadow-md shadow-rose-200 transition-all">
+                                            Try a tool
+                                        </Link>
                                     </div>
                                 ) : (
                                     <div className="divide-y divide-gray-100">
                                         {recentFiles.map((file) => (
-                                            <div key={file.id} className="p-4 flex items-center justify-between hover:bg-white/80 transition-colors group">
-                                                <div className="flex items-center gap-3 min-w-0">
-                                                    <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
-                                                        <FileText className="w-4 h-4" />
+                                            <div key={file.id} className="p-4 flex items-center justify-between hover:bg-gray-50/80 transition-colors group">
+                                                <div className="flex items-center gap-4 min-w-0">
+                                                    <div className="w-10 h-10 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center shrink-0">
+                                                        <FileText className="w-5 h-5" />
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate max-w-[150px] sm:max-w-xs" title={file.name}>
+                                                        <p className="text-sm font-bold text-gray-900 truncate max-w-[200px] sm:max-w-xs transition-colors group-hover:text-rose-600" title={file.name}>
                                                             {file.name}
                                                         </p>
-                                                        <p className="text-xs text-gray-500">
+                                                        <p className="text-xs text-gray-500 mt-0.5">
                                                             {formatFileSize(file.size)} • {new Date(file.created_at).toLocaleDateString()}
                                                         </p>
                                                     </div>
@@ -254,14 +268,14 @@ export default function ProfilePage() {
                                                         download={file.name}
                                                         target="_blank"
                                                         rel="noreferrer"
-                                                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors border border-transparent hover:border-indigo-100"
                                                         title="Download"
                                                     >
                                                         <Download className="w-4 h-4" />
                                                     </a>
                                                     <button
                                                         onClick={() => handleDelete(file.id, file.url)}
-                                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100"
                                                         title="Delete"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
@@ -273,17 +287,6 @@ export default function ProfilePage() {
                                 )}
                             </div>
                         </div>
-                    </div>
-
-                    {/* Footer / Logout */}
-                    <div className="p-4 bg-gray-50/80 border-t border-gray-100 mt-auto">
-                        <button
-                            onClick={handleLogout}
-                            className="w-full py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-bold rounded-lg hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition-all flex items-center justify-center gap-2 shadow-sm"
-                        >
-                            <LogOut className="w-4 h-4" />
-                            Sign Out
-                        </button>
                     </div>
                 </div>
             </div>
