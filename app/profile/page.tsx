@@ -214,7 +214,29 @@ export default function ProfilePage() {
                                     <Clock className="w-5 h-5 text-rose-500" />
                                     Recent Files
                                 </h2>
-                                <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={async () => {
+                                            if (!user) return;
+                                            const { error } = await supabase.from('files').insert({
+                                                user_id: user.id,
+                                                name: 'Test File.pdf',
+                                                url: 'https://example.com',
+                                                size: 12345,
+                                                type: 'application/pdf'
+                                            });
+                                            if (error) alert('DB Insert Error: ' + error.message);
+                                            else {
+                                                alert('DB Insert Success! RLS is working.');
+                                                fetchRecentFiles();
+                                            }
+                                        }}
+                                        className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-gray-600"
+                                    >
+                                        Debug DB
+                                    </button>
+                                    <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-md">Last 10 files</span>
+                                </div>
                             </div>
 
                             <div className="">
