@@ -169,7 +169,7 @@ export default function ProfilePage() {
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                                    <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <Calendar className="w-5 h-5" />
                                     </div>
                                     <div className="min-w-0 flex-1">
@@ -190,7 +190,7 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+                        <div className="bg-gradient-to-br from-rose-500 to-orange-600 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
                             <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
                             <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
@@ -198,8 +198,8 @@ export default function ProfilePage() {
                                     <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold backdrop-blur-sm border border-white/10">Free Plan</span>
                                 </div>
                                 <h3 className="text-xl font-bold mb-1">Upgrade to Pro</h3>
-                                <p className="text-indigo-100 text-sm mb-6">Unlock unlimited PDF tools and higher file limits.</p>
-                                <Link href="/pricing" className="block w-full py-2.5 bg-white text-indigo-600 text-center font-bold rounded-lg hover:bg-indigo-50 transition-colors shadow-sm">
+                                <p className="text-rose-100 text-sm mb-6">Unlock unlimited PDF tools and higher file limits.</p>
+                                <Link href="/pricing" className="block w-full py-2.5 bg-white text-rose-600 text-center font-bold rounded-lg hover:bg-rose-50 transition-colors shadow-sm">
                                     View Plans
                                 </Link>
                             </div>
