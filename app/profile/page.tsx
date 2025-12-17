@@ -107,30 +107,29 @@ export default function ProfilePage() {
     return (
         <div className={`min-h-screen ${pageBg} transition-colors duration-500 pb-12`}>
             {/* Top Banner */}
-            <div className={`h-48 w-full bg-gradient-to-r ${bannerGradient} relative overflow-hidden`}>
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+            <div className={`h-64 w-full bg-gradient-to-r ${bannerGradient} relative`}>
+                <div className="absolute inset-0 bg-black/5"></div>
             </div>
 
-            <div className="container mx-auto px-4 max-w-5xl -mt-20 relative z-10">
-
+            <div className="container mx-auto px-4 max-w-5xl -mt-32 relative z-10">
                 {/* Header Section (Simple) */}
-                <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 mb-12">
-                    <div className="flex items-center gap-4">
-                        <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold ${bgColor} ${accentColor} border-2 ${borderColor}`}>
+                <div className="bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 mb-12 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 border border-gray-100">
+                    <div className="flex items-center gap-6">
+                        <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold ${bgColor} ${accentColor} border-2 ${borderColor} shadow-sm`}>
                             {user.email?.[0]?.toUpperCase()}
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">My Profile</h1>
-                            <p className="text-gray-500">{user.email}</p>
-                            <div className="flex items-center gap-2 mt-1">
-                                <span className={`text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide border ${bgColor} ${accentColor} ${borderColor}`}>
+                            <h1 className="text-3xl font-bold text-gray-900 mb-1">My Dashboard</h1>
+                            <div className="flex items-center gap-3">
+                                <p className="text-gray-500 font-medium">{user.email}</p>
+                                <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide border ${bgColor} ${accentColor} ${borderColor} translate-y-[1px]`}>
                                     {tier} Plan
                                 </span>
-                                <span className="text-xs text-gray-400">ID: {user.id.slice(0, 8)}...</span>
                             </div>
+                            <p className="text-gray-400 text-xs mt-2 font-mono">ID: {user.id}</p>
                         </div>
                     </div>
-                    <button onClick={handleLogout} className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button onClick={handleLogout} className="px-6 py-2.5 text-sm font-bold text-gray-700 hover:text-gray-900 border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
                         Sign Out
                     </button>
                 </div>
