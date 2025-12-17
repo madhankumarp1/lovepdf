@@ -92,14 +92,26 @@ export default function ProfilePage() {
     // Simple Color Logic
     const accentColor = isBusiness ? 'text-purple-600' : isPro ? 'text-amber-600' : 'text-rose-600';
 
-    // Backgrounds
-    const pageBg = isBusiness ? 'bg-purple-50' : isPro ? 'bg-amber-50' : 'bg-rose-50';
+    // Backgrounds & Gradients
+    const pageBg = isBusiness ? 'bg-purple-50' : isPro ? 'bg-amber-50' : 'bg-gray-50';
+    const bannerGradient = isBusiness
+        ? 'from-purple-600 via-indigo-600 to-blue-600'
+        : isPro
+            ? 'from-amber-400 via-orange-500 to-rose-500'
+            : 'from-gray-100 to-gray-200';
+
     const bgColor = isBusiness ? 'bg-purple-100' : isPro ? 'bg-amber-100' : 'bg-rose-100';
     const borderColor = isBusiness ? 'border-purple-200' : isPro ? 'border-amber-200' : 'border-rose-200';
+    const textColor = isBusiness ? 'text-purple-700' : isPro ? 'text-amber-700' : 'text-gray-700';
 
     return (
-        <div className={`min-h-screen ${isFree ? 'bg-gray-50' : pageBg} pt-24 pb-12 transition-colors duration-500`}>
-            <div className="container mx-auto px-4 max-w-5xl">
+        <div className={`min-h-screen ${pageBg} transition-colors duration-500 pb-12`}>
+            {/* Top Banner */}
+            <div className={`h-48 w-full bg-gradient-to-r ${bannerGradient} relative overflow-hidden`}>
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+            </div>
+
+            <div className="container mx-auto px-4 max-w-5xl -mt-20 relative z-10">
 
                 {/* Header Section (Simple) */}
                 <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6 mb-12">
