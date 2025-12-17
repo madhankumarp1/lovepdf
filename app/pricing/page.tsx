@@ -23,7 +23,8 @@ export default function PricingPage() {
         }
     }, [user]);
 
-    const isPro = tier === 'pro' || tier === 'business';
+    const isPro = tier === 'pro';
+    const isBusiness = tier === 'business';
 
     return (
         <div className="container mx-auto px-4 py-16">
@@ -121,7 +122,7 @@ export default function PricingPage() {
                 </div>
 
                 {/* Business Tier */}
-                <div className="border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow bg-white flex flex-col">
+                <div className={`border ${isBusiness ? 'border-purple-400 bg-purple-50/10' : 'border-gray-200 bg-white'} rounded-2xl p-8 hover:shadow-lg transition-shadow flex flex-col`}>
                     <div className="mb-8">
                         <h3 className="text-xl font-bold text-gray-900 mb-2">Business</h3>
                         <p className="text-gray-500 mb-6">For teams and organizations</p>
@@ -148,9 +149,17 @@ export default function PricingPage() {
                             <span>Dedicated account manager</span>
                         </li>
                     </ul>
-                    <Link href="/donate" className="block w-full py-3 px-6 text-center text-gray-900 font-bold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
-                        Contact Sales
-                    </Link>
+
+                    {isBusiness ? (
+                        <div className="block w-full py-3 px-6 text-center text-purple-600 font-bold bg-purple-100 border border-purple-200 rounded-xl shadow-inner cursor-default flex items-center justify-center gap-2">
+                            <Sparkles className="w-5 h-5" />
+                            Current Plan Active
+                        </div>
+                    ) : (
+                        <Link href="/donate" className="block w-full py-3 px-6 text-center text-gray-900 font-bold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
+                            Contact Sales
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>
