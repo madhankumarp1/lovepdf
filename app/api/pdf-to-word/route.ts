@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PDFDocument } from 'pdf-lib';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
@@ -12,19 +11,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "File is required" }, { status: 400 });
         }
 
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
-
-        // Basic optimization: re-saving with pdf-lib often reduces size for unoptimized PDFs
-        // We can also clear metadata to save a few bytes
-        pdfDoc.setTitle(file.name.replace('.pdf', ''));
-        pdfDoc.setProducer('DocMorph (docmorph.online)');
-        pdfDoc.setCreator('DocMorph');
-
-        // usage of useObjectStreams: false might increase size, so we rely on default or explicit true?
-        // Actually pdf-lib creates object streams by default.
-        const pdfBytes = await pdfDoc.save();
-        const buffer = Buffer.from(pdfBytes);
+        // Mock Conversion: Create a dummy text file pretending to be DOCX
+        const mockContent = `This is a simulated converted document for ${file.name}.\n\nIn a real application, a conversion engine would process the PDF content here.`;
+        const buffer = Buffer.from(mockContent);
 
         // --- Save to Supabase if User is Logged In ---
         try {
@@ -53,14 +42,14 @@ export async function POST(req: NextRequest) {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
-                const fileName = `compressed_${Date.now()}.pdf`;
+                const fileName = `converted_${Date.now()}.docx`;
                 const filePath = `${user.id}/${fileName}`;
 
                 // 1. Upload to Storage
                 const { error: uploadError } = await supabase.storage
                     .from('user-files')
                     .upload(filePath, buffer, {
-                        contentType: 'application/pdf',
+                        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                         upsert: false
                     });
 
@@ -77,7 +66,7 @@ export async function POST(req: NextRequest) {
                             name: fileName,
                             url: publicUrlData.publicUrl,
                             size: buffer.length,
-                            type: 'application/pdf'
+                            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                         });
                 }
             }
@@ -89,13 +78,13 @@ export async function POST(req: NextRequest) {
         return new NextResponse(buffer, {
             status: 200,
             headers: {
-                'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="compressed_${file.name}"`,
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'Content-Disposition': `attachment; filename="${file.name.replace('.pdf', '')}.docx"`,
             },
         });
 
     } catch (error) {
-        console.error("Compress API Error:", error);
-        return NextResponse.json({ error: "Failed to compress PDF" }, { status: 500 });
+        console.error("PDF-to-Word API Error:", error);
+        return NextResponse.json({ error: "Failed to convert PDF" }, { status: 500 });
     }
 }

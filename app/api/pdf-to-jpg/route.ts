@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PDFDocument } from 'pdf-lib';
+import AdmZip from 'adm-zip';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
@@ -12,19 +12,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "File is required" }, { status: 400 });
         }
 
-        const arrayBuffer = await file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        // Mock Conversion: Create a zip with a dummy image (text file)
+        const zip = new AdmZip();
+        // Just adding a text file pretending to be an image listing
+        zip.addFile("images/info.txt", Buffer.from(`This is a simulated image extraction for ${file.name}. Backend integration required for real image processing.`));
 
-        // Basic optimization: re-saving with pdf-lib often reduces size for unoptimized PDFs
-        // We can also clear metadata to save a few bytes
-        pdfDoc.setTitle(file.name.replace('.pdf', ''));
-        pdfDoc.setProducer('DocMorph (docmorph.online)');
-        pdfDoc.setCreator('DocMorph');
-
-        // usage of useObjectStreams: false might increase size, so we rely on default or explicit true?
-        // Actually pdf-lib creates object streams by default.
-        const pdfBytes = await pdfDoc.save();
-        const buffer = Buffer.from(pdfBytes);
+        const zipBuffer = zip.toBuffer();
+        const buffer = Buffer.from(zipBuffer);
 
         // --- Save to Supabase if User is Logged In ---
         try {
@@ -53,14 +47,14 @@ export async function POST(req: NextRequest) {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
-                const fileName = `compressed_${Date.now()}.pdf`;
+                const fileName = `images_${Date.now()}.zip`;
                 const filePath = `${user.id}/${fileName}`;
 
                 // 1. Upload to Storage
                 const { error: uploadError } = await supabase.storage
                     .from('user-files')
                     .upload(filePath, buffer, {
-                        contentType: 'application/pdf',
+                        contentType: 'application/zip',
                         upsert: false
                     });
 
@@ -77,7 +71,7 @@ export async function POST(req: NextRequest) {
                             name: fileName,
                             url: publicUrlData.publicUrl,
                             size: buffer.length,
-                            type: 'application/pdf'
+                            type: 'application/zip'
                         });
                 }
             }
@@ -89,13 +83,13 @@ export async function POST(req: NextRequest) {
         return new NextResponse(buffer, {
             status: 200,
             headers: {
-                'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="compressed_${file.name}"`,
+                'Content-Type': 'application/zip',
+                'Content-Disposition': `attachment; filename="${file.name.replace('.pdf', '')}_images.zip"`,
             },
         });
 
     } catch (error) {
-        console.error("Compress API Error:", error);
-        return NextResponse.json({ error: "Failed to compress PDF" }, { status: 500 });
+        console.error("PDF-to-JPG API Error:", error);
+        return NextResponse.json({ error: "Failed to convert PDF" }, { status: 500 });
     }
 }

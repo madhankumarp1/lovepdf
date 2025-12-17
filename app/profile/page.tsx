@@ -3,19 +3,103 @@
 import { useUser } from '@/lib/useUser';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { LogOut, Mail, Calendar, CreditCard, Sparkles, ChevronRight, Shield } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { LogOut, Mail, Calendar, CreditCard, Sparkles, ChevronRight, Shield, FileText, Download, Trash2, Clock } from 'lucide-react';
 import Link from 'next/link';
+
+interface FileRecord {
+    id: string;
+    name: string;
+    url: string;
+    size: number;
+    created_at: string;
+}
 
 export default function ProfilePage() {
     const { user, loading } = useUser();
     const router = useRouter();
+    const [recentFiles, setRecentFiles] = useState<FileRecord[]>([]);
+    const [loadingFiles, setLoadingFiles] = useState(true);
 
     useEffect(() => {
         if (!loading && !user) {
             router.push('/');
         }
     }, [user, loading, router]);
+
+    useEffect(() => {
+        if (user) {
+            fetchRecentFiles();
+        }
+    }, [user]);
+
+    const fetchRecentFiles = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('files')
+                .select('*')
+                .eq('user_id', user!.id)
+                .order('created_at', { ascending: false })
+                .limit(10);
+
+            if (error) throw error;
+            setRecentFiles(data || []);
+        } catch (error) {
+            console.error('Error fetching files:', error);
+        } finally {
+            setLoadingFiles(false);
+        }
+    };
+
+    const handleDelete = async (fileId: string, filePath: string) => {
+        if (!confirm('Are you sure you want to delete this file?')) return;
+
+        try {
+            // Delete from Storage
+            // Extract path relative to bucket if needed, but we stored full path "userId/filename" probably
+            // Wait, we stored `url` in DB which is the public URL.
+            // We need the storage path to delete.
+            // In API we did: const filePath = `${user.id}/${fileName}`;
+            // And inserted `name` as fileName.
+            // So path is likely `${user!.id}/${fileRecord.name}`
+
+            // Wait, we need to be careful. Let's get the file object.
+            const fileToDelete = recentFiles.find(f => f.id === fileId);
+            if (!fileToDelete) return;
+
+            const storagePath = `${user!.id}/${fileToDelete.name}`;
+
+            const { error: storageError } = await supabase.storage
+                .from('user-files')
+                .remove([storagePath]);
+
+            if (storageError) {
+                console.error('Storage delete error:', storageError);
+                // Continue to delete from DB anyway? Or warn?
+            }
+
+            const { error: dbError } = await supabase
+                .from('files')
+                .delete()
+                .eq('id', fileId);
+
+            if (dbError) throw dbError;
+
+            setRecentFiles(prev => prev.filter(f => f.id !== fileId));
+            // alert('File deleted'); // Or use toast if available
+        } catch (error) {
+            console.error('Error deleting file:', error);
+            alert('Failed to delete file');
+        }
+    };
+
+    const formatFileSize = (bytes: number) => {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    };
 
     const handleLogout = async () => {
         if (supabase) {
@@ -128,6 +212,66 @@ export default function ProfilePage() {
                                 </div>
                             </div>
 
+                        </div>
+
+                        {/* Recent Files Section */}
+                        <div className="mt-8">
+                            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <Clock className="w-5 h-5 text-rose-500" />
+                                Recent Files
+                            </h2>
+
+                            <div className="bg-white/50 rounded-2xl border border-gray-100 overflow-hidden">
+                                {loadingFiles ? (
+                                    <div className="p-8 text-center text-gray-400 text-sm">Loading files...</div>
+                                ) : recentFiles.length === 0 ? (
+                                    <div className="p-8 text-center text-gray-400 text-sm flex flex-col items-center gap-2">
+                                        <FileText className="w-8 h-8 opacity-20" />
+                                        <p>No processed files yet.</p>
+                                        <Link href="/" className="text-rose-500 hover:underline">Try a tool</Link>
+                                    </div>
+                                ) : (
+                                    <div className="divide-y divide-gray-100">
+                                        {recentFiles.map((file) => (
+                                            <div key={file.id} className="p-4 flex items-center justify-between hover:bg-white/80 transition-colors group">
+                                                <div className="flex items-center gap-3 min-w-0">
+                                                    <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
+                                                        <FileText className="w-4 h-4" />
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-medium text-gray-900 truncate max-w-[150px] sm:max-w-xs" title={file.name}>
+                                                            {file.name}
+                                                        </p>
+                                                        <p className="text-xs text-gray-500">
+                                                            {formatFileSize(file.size)} • {new Date(file.created_at).toLocaleDateString()}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <a
+                                                        href={file.url}
+                                                        download={file.name}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                                        title="Download"
+                                                    >
+                                                        <Download className="w-4 h-4" />
+                                                    </a>
+                                                    <button
+                                                        onClick={() => handleDelete(file.id, file.url)}
+                                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                        title="Delete"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 

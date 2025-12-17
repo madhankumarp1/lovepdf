@@ -13,11 +13,31 @@ export default function PdfToJpgPage() {
 
         setProcessing(true);
         try {
-            // Mock processing delay
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const formData = new FormData();
+            formData.append('file', files[0]);
 
-            // In a real app, we would send the file to backend and get images back.
-            alert("Conversion simulation complete! backend integration required for real conversion.");
+            const response = await fetch('/api/pdf-to-jpg', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Conversion failed');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${files[0].name.replace('.pdf', '')}_images.zip`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            // Optional: Show toast success
+            // alert('File downloaded!');
 
         } catch (error) {
             console.error('Error converting PDF:', error);
