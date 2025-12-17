@@ -189,7 +189,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Sidebar: Upgrade / Info */}
-                    <div className="space-y-6">
+                    <div className="space-y-6 lg:sticky lg:top-24 h-fit">
                         {isFree && (
                             <div className="p-6 rounded-2xl border border-rose-100 bg-rose-50/50">
                                 <div className="flex items-center gap-3 mb-4">
@@ -207,23 +207,25 @@ export default function ProfilePage() {
                             </div>
                         )}
 
-                        <div className="p-6 rounded-2xl border border-gray-200 bg-white shadow-sm">
+                        <div className="p-6 rounded-2xl border border-gray-200 bg-white shadow-sm w-full">
                             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Account Details</h3>
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-gray-500">Email</span>
-                                    <span className="font-medium text-gray-900 truncate max-w-[150px]">{user.email}</span>
+                            <div className="space-y-4">
+                                <div className="group">
+                                    <p className="text-xs text-gray-500 mb-1">Email Address</p>
+                                    <p className="font-medium text-gray-900 break-all">{user.email}</p>
                                 </div>
-                                <div className="flex items-center justify-between text-sm">
+
+                                <div className="flex items-center justify-between text-sm py-2 border-t border-gray-50">
                                     <span className="text-gray-500">Joined</span>
                                     <span className="font-medium text-gray-900">{new Date(user.created_at).toLocaleDateString()}</span>
                                 </div>
-                                <div className="pt-3 border-t border-gray-100">
+
+                                <div className="pt-2 border-t border-gray-50">
                                     <p className="text-xs text-gray-500 mb-1">User ID</p>
-                                    <div className="flex items-center justify-between bg-gray-50 p-2 rounded text-xs text-gray-600">
-                                        <code className="truncate max-w-[180px]">{user.id}</code>
-                                        <button onClick={() => navigator.clipboard.writeText(user.id)} className="ml-2 hover:text-gray-900">
-                                            <Copy className="w-3 h-3" />
+                                    <div className="flex items-center justify-between bg-gray-50 p-2 rounded-lg text-xs text-gray-600 border border-gray-100">
+                                        <code className="truncate flex-1 font-mono">{user.id}</code>
+                                        <button onClick={() => navigator.clipboard.writeText(user.id)} className="ml-2 text-gray-400 hover:text-gray-900 p-1 hover:bg-gray-200 rounded transition-colors" title="Copy ID">
+                                            <Copy className="w-3.5 h-3.5" />
                                         </button>
                                     </div>
                                 </div>
