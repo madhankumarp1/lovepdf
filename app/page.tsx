@@ -1,5 +1,5 @@
 import { ToolCard } from '@/components/ToolCard';
-import { Files, Scissors, Minimize2, FileImage, FileType, Stamp, Lock, Unlock } from 'lucide-react';
+import { Files, Scissors, Minimize2, FileImage, FileType, Stamp, Lock, Unlock, RefreshCw } from 'lucide-react';
 
 const TOOLS = [
   {
@@ -27,12 +27,41 @@ const TOOLS = [
     href: "/pdf-to-word"
   },
   {
-    title: "PDF to JPG",
-    description: "Extract images from your PDF or save each page as a separate image.",
+    title: "JPG to PDF",
+    description: "Convert JPG images to PDF in seconds. Easily adjust orientation and margins.",
     icon: FileImage,
-    href: "/pdf-to-jpg"
+    href: "/jpg-to-pdf"
   },
-  // Additional tools can be added here
+  {
+    title: "Word to PDF",
+    description: "Make DOC and DOCX files easy to read by converting them to PDF.",
+    icon: FileType,
+    href: "/word-to-pdf"
+  },
+  {
+    title: "Protect PDF",
+    description: "Encrypt your PDF with a password to keep sensitive data confidential.",
+    icon: Lock,
+    href: "/protect-pdf"
+  },
+  {
+    title: "Unlock PDF",
+    description: "Remove PDF password security, giving you the freedom to use your data.",
+    icon: Unlock,
+    href: "/unlock-pdf"
+  },
+  {
+    title: "Rotate PDF",
+    description: "Rotate your PDF files as you want. Rotate multiple PDF at same time!",
+    icon: FileType, // Using FileType as placeholder, ideally use Rotate or similar
+    href: "/rotate-pdf"
+  },
+  {
+    title: "Watermark PDF",
+    description: "Stamp an image or text over your PDF in seconds. Choose the typography, transparency and position.",
+    icon: Stamp,
+    href: "/watermark-pdf"
+  },
 ];
 
 export default function Home() {
