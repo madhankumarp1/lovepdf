@@ -43,9 +43,9 @@ export function Footer() {
                         <h4 className="font-bold text-gray-900 mb-6">Support</h4>
                         <ul className="space-y-4 text-gray-600">
                             <li><Link href="/donate" className="hover:text-rose-600 transition-colors">Donate</Link></li>
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Help Center</a></li>
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Contact Us</a></li>
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Status</a></li>
+                            <li><Link href="/help" className="hover:text-rose-600 transition-colors">Help Center</Link></li>
+                            <li><Link href="/contact" className="hover:text-rose-600 transition-colors">Contact Us</Link></li>
+                            <li><Link href="/status" className="hover:text-rose-600 transition-colors">Status</Link></li>
                         </ul>
                     </div>
 
@@ -53,9 +53,9 @@ export function Footer() {
                     <div>
                         <h4 className="font-bold text-gray-900 mb-6">Legal</h4>
                         <ul className="space-y-4 text-gray-600">
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Terms of Service</a></li>
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" className="hover:text-rose-600 transition-colors">Cookie Policy</a></li>
+                            <li><Link href="/legal/terms" className="hover:text-rose-600 transition-colors">Terms of Service</Link></li>
+                            <li><Link href="/legal/privacy" className="hover:text-rose-600 transition-colors">Privacy Policy</Link></li>
+                            <li><Link href="/legal/cookies" className="hover:text-rose-600 transition-colors">Cookie Policy</Link></li>
                         </ul>
                     </div>
                 </div>
