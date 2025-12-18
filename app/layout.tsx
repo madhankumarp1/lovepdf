@@ -8,19 +8,42 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'DocMorph | Online PDF Tools for PDF Lovers',
+    default: 'DocMorph | Free Online PDF Tools - Merge, Split, Compress & Convert',
     template: '%s | DocMorph'
   },
-  description: 'Merge, Split, Compress, convert, rotate, unlock and watermark PDF files with just a few clicks. 100% Free and easy to use.',
-  keywords: ['merge pdf', 'split pdf', 'compress pdf', 'convert pdf', 'pdf tools', 'free pdf tools', 'docmorph', 'ilovepdf clone'],
+  description: '100% Free online PDF tools. Merge PDF, Split PDF, Compress PDF, Convert Word to PDF, PDF to Word, and more. Easy, fast, and secure.',
+  keywords: [
+    'merge pdf', 'combine pdf', 'join pdf',
+    'split pdf', 'extract pdf pages', 'separate pdf',
+    'compress pdf', 'reduce pdf size', 'optimize pdf',
+    'pdf to word', 'convert pdf to doc', 'pdf to docx',
+    'word to pdf', 'doc to pdf',
+    'pdf to jpg', 'convert pdf to image',
+    'free pdf tools', 'online pdf converter', 'docmorph',
+    'edit pdf', 'rotate pdf', 'unlock pdf'
+  ],
   authors: [{ name: 'Madhankumar' }],
+  creator: 'Madhankumar',
+  publisher: 'DocMorph',
+  metadataBase: new URL('https://docmorph.online'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://docmorph.online',
-    title: 'DocMorph | Online PDF Tools for PDF Lovers',
-    description: 'Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!',
+    title: 'DocMorph | Free Online PDF Tools',
+    description: 'Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, Split, Compress, Convert and more.',
     siteName: 'DocMorph',
+    images: [
+      {
+        url: '/og-image.jpg', // Ensure this exists or use a default
+        width: 1200,
+        height: 630,
+        alt: 'DocMorph PDF Tools',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -30,6 +53,17 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'DgteCEDYckDWnfkSCKZfyJSx6MNzUPkj5G2v9PLzpO0',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

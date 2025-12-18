@@ -177,27 +177,34 @@ export default function ProfilePage() {
                             </div>
                         ) : (
                             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                                {recentFiles.map((file, i) => (
-                                    <div key={file.id} className={`p-4 flex items-center justify-between group ${i !== recentFiles.length - 1 ? 'border-b border-gray-100' : ''} hover:bg-gray-50 transition-colors`}>
-                                        <div className="flex items-center gap-4 min-w-0">
-                                            <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 shrink-0">
-                                                <FileText className="w-5 h-5" />
+                                {recentFiles.map((file, i) => {
+                                    const isImage = file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+                                    return (
+                                        <div key={file.id} className={`p-4 flex items-center justify-between group ${i !== recentFiles.length - 1 ? 'border-b border-gray-100' : ''} hover:bg-gray-50 transition-colors`}>
+                                            <div className="flex items-center gap-4 min-w-0">
+                                                <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 shrink-0 overflow-hidden">
+                                                    {isImage ? (
+                                                        <img src={file.url} alt={file.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <FileText className="w-5 h-5" />
+                                                    )}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="font-medium text-gray-900 truncate">{file.name}</p>
+                                                    <p className="text-xs text-gray-500">{formatFileSize(file.size)} • {new Date(file.created_at).toLocaleDateString()}</p>
+                                                </div>
                                             </div>
-                                            <div className="min-w-0">
-                                                <p className="font-medium text-gray-900 truncate">{file.name}</p>
-                                                <p className="text-xs text-gray-500">{formatFileSize(file.size)} • {new Date(file.created_at).toLocaleDateString()}</p>
+                                            <div className="flex items-center gap-2">
+                                                <a href={file.url} download target="_blank" className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                                                    <Download className="w-4 h-4" />
+                                                </a>
+                                                <button onClick={() => handleDelete(file.id, file.url)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <a href={file.url} download target="_blank" className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
-                                                <Download className="w-4 h-4" />
-                                            </a>
-                                            <button onClick={() => handleDelete(file.id, file.url)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </div>
