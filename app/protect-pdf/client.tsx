@@ -23,11 +23,25 @@ export default function ProtectPdfClient() {
 
         try {
             const fileArrayBuffer = await file.arrayBuffer();
-            const pdfDoc = await PDFDocument.load(fileArrayBuffer);
+
+            // Attempt to load. If it forces password, it's already encrypted.
+            // We load with ignoreEncryption to see if we can read it, but usually standard PDF loaders fail 
+            // if encrypted without password. simpler is to try-catch the load.
+            let pdfDoc;
+            try {
+                pdfDoc = await PDFDocument.load(fileArrayBuffer);
+            } catch (e: any) {
+                if (e.message && (e.message.includes('encrypt') || e.message.includes('Password'))) {
+                    alert("This file is ALREADY encrypted. Please Unlock it first.");
+                    setIsProcessing(false);
+                    return;
+                }
+                throw e;
+            }
 
             pdfDoc.encrypt({
                 userPassword: password,
-                ownerPassword: password, // Same password for simplicity in this free tool
+                ownerPassword: password, // Same password for simplicity
                 permissions: {
                     printing: 'highResolution',
                     modifying: false,
@@ -49,7 +63,7 @@ export default function ProtectPdfClient() {
             URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Error protecting PDF:', error);
-            alert('Failed to protect PDF. The file might be corrupted or already encrypted.');
+            alert('Failed to protect PDF. Please ensure the file is a valid, unprotected PDF.');
         } finally {
             setIsProcessing(false);
         }

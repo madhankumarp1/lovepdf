@@ -89,11 +89,13 @@ export default function RotatePdfClient() {
             const pages = pdfDoc.getPages();
 
             pages.forEach((page, index) => {
-                const rotation = pageRotations[index];
-                if (rotation !== 0) {
-                    // Get current rotation and add ours
+                const rotationToAdd = pageRotations[index] || 0;
+
+                // Only modify if there is a rotation change
+                if (rotationToAdd !== 0) {
                     const currentRotation = page.getRotation().angle;
-                    page.setRotation(degrees(currentRotation + rotation));
+                    const newRotationAngle = (currentRotation + rotationToAdd) % 360;
+                    page.setRotation(degrees(newRotationAngle));
                 }
             });
 
@@ -107,7 +109,7 @@ export default function RotatePdfClient() {
             URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Error saving PDF:', error);
-            alert('Failed to save PDF.');
+            alert('Failed to save rotated PDF. Please try a different file.');
         } finally {
             setIsConverting(false);
         }
