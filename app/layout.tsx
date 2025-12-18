@@ -8,10 +8,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'DocMorph | Free Online PDF Tools - Merge, Split, Compress & Convert',
+    default: 'DocMorph | Online PDF Tools for PDF Lovers',
     template: '%s | DocMorph'
   },
-  description: '100% Free online PDF tools. Merge PDF, Split PDF, Compress PDF, Convert Word to PDF, PDF to Word, and more. Easy, fast, and secure.',
+  description: 'Merge, Split, Compress, convert, rotate, unlock and watermark PDF files with just a few clicks. 100% Free and easy to use.',
   keywords: [
     'merge pdf', 'combine pdf', 'join pdf',
     'split pdf', 'extract pdf pages', 'separate pdf',
@@ -33,15 +33,15 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://docmorph.online',
-    title: 'DocMorph | Free Online PDF Tools',
-    description: 'Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, Split, Compress, Convert and more.',
+    title: 'DocMorph | Online PDF Tools for PDF Lovers',
+    description: 'Merge, Split, Compress, convert, rotate, unlock and watermark PDF files with just a few clicks. 100% Free and easy to use.',
     siteName: 'DocMorph',
     images: [
       {
         url: '/og-image.jpg', // Ensure this exists or use a default
         width: 1200,
         height: 630,
-        alt: 'DocMorph PDF Tools',
+        alt: 'DocMorph | Online PDF Tools for PDF Lovers',
       },
     ],
   },
