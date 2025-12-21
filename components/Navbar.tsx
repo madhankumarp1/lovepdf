@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { useUser } from '@/lib/useUser';
 import { supabase } from '@/lib/supabase';
 import { useState } from 'react';
@@ -23,7 +23,7 @@ export function Navbar() {
             <nav className="border-b bg-white sticky top-0 z-40 backdrop-blur-md bg-white/80">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl text-rose-600 transition-transform hover:scale-105">
-                        <Heart className="fill-current w-6 h-6" />
+                        <Globe className="w-6 h-6" />
                         <span>DocMorph</span>
                     </Link>
 

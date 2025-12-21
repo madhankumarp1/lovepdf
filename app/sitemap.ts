@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://docmorph.online';
 
-    return [
+    const baseRoutes: MetadataRoute.Sitemap = [
         {
             url: baseUrl,
             lastModified: new Date(),
@@ -47,4 +47,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.5,
         },
     ];
+
+    const routes = [
+        '/word-to-pdf',
+        '/jpg-to-pdf',
+        '/rotate-pdf',
+        '/unlock-pdf',
+        '/protect-pdf',
+        '/watermark-pdf',
+        '/pricing',
+        '/help',
+        '/contact',
+        '/status',
+        '/legal/terms',
+        '/legal/privacy',
+        '/legal/cookies',
+    ];
+
+    const newRoutes = routes.map((route) => ({
+        url: `${baseUrl}${route}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+    }));
+
+    return [...baseRoutes, ...newRoutes];
 }

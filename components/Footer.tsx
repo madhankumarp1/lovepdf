@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Heart, Github, Twitter, Instagram } from 'lucide-react';
+import { Heart, Github, Twitter, Instagram, Globe } from 'lucide-react';
 
 export function Footer() {
     return (
@@ -9,6 +9,7 @@ export function Footer() {
                     {/* Brand Column */}
                     <div className="col-span-2 md:col-span-1">
                         <Link href="/" className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-4">
+                            <Globe className="w-8 h-8 text-rose-600" />
                             DocMorph
                         </Link>
                         <p className="text-gray-500 mb-6 max-w-sm">
