@@ -47,7 +47,7 @@ export default function WordToPdfClient() {
             });
 
             const pdfBytes = await pdfDoc.save();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const blob = new Blob([pdfBytes as any], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
@@ -134,53 +134,51 @@ export default function WordToPdfClient() {
                     )}
                 </div>
             </div>
+            {/* SEO Content Section */}
+            <div className="max-w-4xl mx-auto mt-16 prose prose-slate">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-6">Convert Word to PDF Online for Free</h2>
+                    <p className="text-slate-600 mb-8 leading-relaxed">
+                        DocMorph offers a simple and fast way to convert Word to PDF online. Just upload your Word file, and our tool will instantly create a PDF that preserves formatting, layout, and text quality.
+                    </p>
+                    <p className="text-slate-600 mb-8 leading-relaxed">
+                        There are <strong>no watermarks</strong>, no registration, and no hidden limits. This makes DocMorph a perfect choice for students, professionals, and anyone who needs a reliable Word to PDF converter.
+                    </p>
+
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4">How to Convert Word to PDF</h2>
+                    <ol className="list-decimal list-inside space-y-2 text-slate-600 mb-8">
+                        <li>Upload your Word (DOC or DOCX) file</li>
+                        <li>Click the convert button</li>
+                        <li>Download your PDF instantly</li>
+                    </ol>
+                    <p className="text-slate-600 mb-8">Your Word file is converted securely in seconds.</p>
+
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Choose DocMorph Word to PDF Converter</h2>
+                    <ul className="list-disc list-inside space-y-2 text-slate-600 mb-8">
+                        <li>Free Word to PDF conversion</li>
+                        <li>No watermark added</li>
+                        <li>Fast and simple interface</li>
+                        <li>Secure file handling</li>
+                        <li>Works on mobile and desktop</li>
+                    </ul>
+                    <p className="text-slate-600 mb-8">
+                        DocMorph is built to be a <strong>simple Word to PDF converter</strong> that anyone can use without technical knowledge.
+                    </p>
+
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4">Secure Word to PDF Conversion</h2>
+                    <p className="text-slate-600 mb-8 leading-relaxed">
+                        Your privacy matters. Files uploaded to DocMorph are processed securely and automatically removed after conversion. We do not store or share your documents.
+                    </p>
+
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4">Convert Word to PDF Anytime, Anywhere</h2>
+                    <p className="text-slate-600 leading-relaxed">
+                        DocMorph works directly in your browser, so you can convert Word to PDF online from any device. No installation is required.
+                    </p>
+                    <p className="text-slate-600 mt-4 font-medium">
+                        Try our <strong>free Word to PDF online tool</strong> today and simplify your document work.
+                    </p>
+                </div>
+            </div>
         </div>
-            
-            {/* SEO Content Section */ }
-    <div className="max-w-4xl mx-auto mt-16 prose prose-slate">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 md:p-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Convert Word to PDF Online for Free</h2>
-            <p className="text-slate-600 mb-8 leading-relaxed">
-                DocMorph offers a simple and fast way to convert Word to PDF online. Just upload your Word file, and our tool will instantly create a PDF that preserves formatting, layout, and text quality.
-            </p>
-            <p className="text-slate-600 mb-8 leading-relaxed">
-                There are <strong>no watermarks</strong>, no registration, and no hidden limits. This makes DocMorph a perfect choice for students, professionals, and anyone who needs a reliable Word to PDF converter.
-            </p>
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">How to Convert Word to PDF</h2>
-            <ol className="list-decimal list-inside space-y-2 text-slate-600 mb-8">
-                <li>Upload your Word (DOC or DOCX) file</li>
-                <li>Click the convert button</li>
-                <li>Download your PDF instantly</li>
-            </ol>
-            <p className="text-slate-600 mb-8">Your Word file is converted securely in seconds.</p>
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Why Choose DocMorph Word to PDF Converter</h2>
-            <ul className="list-disc list-inside space-y-2 text-slate-600 mb-8">
-                <li>Free Word to PDF conversion</li>
-                <li>No watermark added</li>
-                <li>Fast and simple interface</li>
-                <li>Secure file handling</li>
-                <li>Works on mobile and desktop</li>
-            </ul>
-            <p className="text-slate-600 mb-8">
-                DocMorph is built to be a <strong>simple Word to PDF converter</strong> that anyone can use without technical knowledge.
-            </p>
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Secure Word to PDF Conversion</h2>
-            <p className="text-slate-600 mb-8 leading-relaxed">
-                Your privacy matters. Files uploaded to DocMorph are processed securely and automatically removed after conversion. We do not store or share your documents.
-            </p>
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Convert Word to PDF Anytime, Anywhere</h2>
-            <p className="text-slate-600 leading-relaxed">
-                DocMorph works directly in your browser, so you can convert Word to PDF online from any device. No installation is required.
-            </p>
-            <p className="text-slate-600 mt-4 font-medium">
-                Try our <strong>free Word to PDF online tool</strong> today and simplify your document work.
-            </p>
-        </div>
-    </div>
-        </div >
     );
 }
