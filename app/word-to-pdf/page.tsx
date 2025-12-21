@@ -5,15 +5,14 @@ export const metadata: Metadata = {
     title: 'Word to PDF | Best Free Online DOCX to PDF Converter',
     description: 'Convert Word to PDF online for free. The best tool to convert DOC and DOCX to PDF. Fast, easy, and secure. No registration required.',
     keywords: [
-        'word to pdf',
-        'convert word to pdf',
-        'doc to pdf',
-        'docx to pdf',
-        'word to pdf converter',
-        'free word to pdf',
-        'online pdf converter',
-        'best word to pdf converter',
-        'microsoft word to pdf'
+        'free word to pdf online',
+        'word to pdf without watermark',
+        'simple word to pdf converter',
+        'fast word to pdf online',
+        'convert word to pdf free',
+        'word to pdf online tool',
+        'doc to pdf converter online',
+        'secure word to pdf converter'
     ],
     alternates: {
         canonical: '/word-to-pdf',
